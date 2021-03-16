@@ -1,0 +1,20 @@
+<div class="report" *ngIf="report">
+  <mica-action-button text="{{report.name}}" [expandable]="true" defaultIcon="assets/images/item_menu.png"
+      (default)="onDefaultAction()" (open)="showReport()"[class.open]="showSubscriptors">
+      <mica-action-button-item icon="assets/images/export.png" (click)="exportReport()" class="action" label="Export">
+      </mica-action-button-item>
+      <mica-action-button-item class="action" label="Delete" icon="assets/images/item_delete.png"
+          (click)="undefineReport()">
+      </mica-action-button-item>
+
+    
+  </mica-action-button>
+  <div class="info">
+      <mica-service-button [state]="reportState" [disabled]="isReportPending()" (click)=setReportState()>
+      </mica-service-button>
+  </div>
+</div>
+
+<div [@showContent]="showSubscriptors" class="details">
+  <app-subscriptions [cycleId]="id" [disabled]="isReportPending()"></app-subscriptions>
+</div>

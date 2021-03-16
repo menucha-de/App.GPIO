@@ -1,0 +1,14 @@
+<div class="row">
+    <label>{{pin.name}}</label>
+    <div>
+        <select [(ngModel)]="pin.direction" name="direction" micaSelect (ngModelChange)="directionChange()">
+            <option ngValue="INPUT">INPUT</option>
+            <option ngValue="OUTPUT">OUTPUT</option>
+        </select>
+    </div>
+    <mica-switch [(ngModel)]="state" name="state" (ngModelChange)="statusChange()"
+        [disabled]="pin.direction=='INPUT'"></mica-switch>
+    <app-customswitch [(ngModel)]="pin.initialState" name="initialState" [values]="defaultvalues"
+        [disabled]="pin.direction=='INPUT'" (ngModelChange)="initialStatusChange()"></app-customswitch>
+    <input type="text" [placeholder]="pin.name" micaInput [(ngModel)]="pin.label" name="label" (change)="changeLabel()" >
+</div>

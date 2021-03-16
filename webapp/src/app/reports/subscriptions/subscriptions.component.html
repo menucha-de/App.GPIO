@@ -1,0 +1,21 @@
+<div  class="list-items" [class.disabled]="disabled">
+    <table class="table">
+      <tr *ngFor="let sub of subscriptions | keyvalue">
+        <td (click)="onChangeSubscriptor(sub.key)"   >  
+           {{sub.value.name}} <span>{{subscriptors.get(sub.value.subscriberId)}}</span>
+        </td>
+        <td><mica-service-button [small]="true" [labelPosition]="'right'" [state]="getSubscriptorState(sub.value)" 
+          [disabled]="isSubscriptorPending(sub.value)" 
+          [label]="sub?.value.enable === true ? 'Active' : 'Inactive'" 
+          (click)="enableSubscriptor(sub.value)"></mica-service-button></td>
+        <td>
+          <div class="remove" title="Delete Row" (click)="deleteSubscriptor(sub.key)">&nbsp;</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="head" (click)="addSubscriptor()">New Subscription</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+  </div>

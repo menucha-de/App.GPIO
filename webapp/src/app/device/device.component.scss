@@ -1,0 +1,26 @@
+
+  label{
+      font-weight: bold;
+      width:6.5em;
+  }
+  .row{
+    display: flex;
+    align-items: center;
+    padding-left: 3.5em;
+    margin-bottom: 1em;
+    
+  }
+  .row>:nth-child(1){width:6.5em;}
+  .row>:nth-child(2){width:10em;}
+  .row>:nth-child(3){width:6em;}
+  .row>:nth-child(4){width:6em;}
+  
+  .form-group{    
+    margin-left: 3em;
+    display: flex;
+    align-items: center;   
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+}
+  

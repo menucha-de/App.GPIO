@@ -1,0 +1,63 @@
+<mica-dialog *ngIf="report$ | async as report" caption="Report" okText="Apply" (close)="onClose($event,report)">
+
+    <mica-service-button (click)="reportEnable(report)" [state]="report.enabled===true ? 'started':'stopped'"
+        class="items">
+    </mica-service-button>
+    <div class="content">
+        <form>
+            <div class="form-group">
+                <label>Name</label><input type="text" micaInput [(ngModel)]="report.name" name="name">
+            </div>
+            <div class="form-group">
+                <label>Duration</label><input type="number" micaInput [(ngModel)]="report.duration" name="duration" min="0"
+                    oninput="validity.valid||(value='');">
+            </div>           
+            <div class="form-group">
+                <label>Repeat Period</label><input type="number" micaInput [(ngModel)]="report.repeatPeriod" name="repeatPeriod"
+                    min="0" oninput="validity.valid||(value='');">
+            </div>
+            <div class="form-group">
+                <label>Report if Empty</label><mica-switch [(ngModel)]="report.reportIfEmpty" name="reportIfEmpty"></mica-switch>
+            </div>
+            <div class="form-group">
+                <label>When data available</label><mica-switch [(ngModel)]="report.whenDataAvailable" name="whenDataAvailable"></mica-switch>
+            </div>
+            <div class="form-group">
+                <app-select-machines class="flex"  [(ngModel)]="device"
+                    name="device"></app-select-machines>
+            </div>
+        </form>
+
+        <mica-expandable label="Fields" showContent=true>
+            <div class="fields" *ngIf="getDeviceFields(device)  as fields">
+            <table class=table>
+                <tr *ngFor="let fieldSubscription of fieldSubscriptions">
+                    <td>
+                        <select micaSelect shape="no-border" [(ngModel)]="fieldSubscription.id"  (change)="onEditField(fieldSubscription,fields)">
+                            <option value="0" selected disabled hidden></option>
+                            <optgroup label="COMMAND" >
+                                <option value="ADD ALL FIELDS">ADD ALL FIELDS</option>
+                            </optgroup>
+                            <optgroup label="FIELDS" >
+                                <option *ngFor="let field of fields "
+                                    [ngValue]="field.id">
+                                    {{field.label==""?field.name:field.label}}</option>
+                                <option hidden disabled>{{fieldSubscription.id}}</option>
+                            </optgroup>
+                        </select>
+                    </td>
+                    <td (click)="remove(fieldSubscription)">
+                        <div class="remove"></div>
+                    </td>
+                </tr>
+                <tr (click)="addField()">
+                    
+                    <td>Field</td>
+                    <td></td>
+                </tr>
+            </table>
+            </div>
+        </mica-expandable>
+
+    </div>
+</mica-dialog>

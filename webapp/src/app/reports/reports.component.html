@@ -1,0 +1,15 @@
+<mica-expandable label="Reports" [simple]="false" [showContent]="showContent" [group]="group" (show)="onShow($event)">
+  <div *ngFor="let item of items$ | async  |keyvalue" class="list">
+    <app-report [report]="item.value" [id]="item.key" [showv]=getshowv(item.key)></app-report>
+  </div>
+  <div class="add-button">
+
+    <mica-action-button unexciting=true defaultIcon="assets/images/item_list_refresh.png" (open)="showReport('new')"
+      (default)="refreshReports()">
+      <img class="icon" src="assets/images/add.png">
+      <mica-action-button-item icon="assets/images/import.png" (click)="uploader.click()" class="action" label="Import">
+      </mica-action-button-item>
+    </mica-action-button>
+  </div>
+  <input #uploader type="file" class="notshown" (change)="importReport($event.target.files)">
+</mica-expandable>

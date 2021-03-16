@@ -1,0 +1,63 @@
+.list-items {
+  padding: 0 0 0.5em 0;
+  margin-left: 0.3em;
+}
+
+.table {
+  box-shadow: inset 1px 2px 5px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5em;
+  border: 1px solid #d3d3d3;
+  font-size: 0.8em;
+  table-layout: fixed;
+  overflow: hidden;
+  border-spacing: 0;
+  width: 100%;
+  margin: 0.3em 0;
+}
+.table td:last-child div {
+  background: url("../../../assets/images/row_delete.png") center no-repeat;
+}
+div.remove {
+  line-height: 1.8em;
+  min-height: 100%;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+.table td:last-child {
+  vertical-align: top;
+  border-right: initial;
+  width: 2em;
+  border-left: 0;
+}
+
+.table tr:last-child td {
+  border-bottom: 0;
+  color: grey;
+}
+
+.table td {
+  border-bottom: 1px solid #d3d3d3;
+  overflow: hidden;
+  height: 1.8em;
+  padding-left: 0.5em;
+  border-left: 0;
+  border-right: 0;
+  cursor: pointer;
+}
+
+tr > td:nth-child(2) {
+  width: 4.8em;
+  padding-top: 4px;
+  padding-bottom: 3px;
+}
+.disabled{
+  pointer-events: none;
+  .table{
+     opacity: 0.5;
+
+  }
+}
+td span{
+  color: #99a4ae;
+}

@@ -1,0 +1,3 @@
+target/gpio /opt/peramic-app/
+webapp/www /opt/peramic-app/
+api/openapi.yaml /opt/peramic-app/www/

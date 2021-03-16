@@ -1,0 +1,8 @@
+Source: gpio
+Maintainer: peraMIC <opensource@peraMIC.io>
+Build-Depends: debhelper, nodejs:native, golang:native, git, crossbuild-essential-armhf:all, libmica-gpio, libhidapi-dev
+ 
+Package: gpio
+Architecture: any
+Depends: ${shlibs:Depends}, libmica-gpio, swagger-ui
+Description: MICA GPIO service

@@ -1,0 +1,12 @@
+
+
+<label class="lbl" [class.hidden]="hidden">Machine</label>
+<div *ngIf= "machines | async as items">
+    
+<select [(ngModel)]="value" (blur)="onBlur()"  
+
+[class.hidden]="hidden">
+    
+    <option *ngFor="let item of items |keyvalue" [ngValue]="item.value"  >{{item.value.name}} </option>
+</select>
+</div>

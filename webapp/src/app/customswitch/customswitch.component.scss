@@ -1,0 +1,72 @@
+.switch-toggle {
+    float: left;
+    
+ }
+ .switch-toggle input {
+   position: absolute;
+   opacity: 0;
+ }
+ .switch-toggle input + label {
+   padding: 7px;
+   float:left;
+   color: #fff;
+   cursor: pointer;
+ }
+ .switch-toggle:has( input#off:checked ) {
+    display: block;
+    background-image: url('../../assets/images/switch_off.png');
+    width: 65px;
+    height: 34px;
+    cursor: pointer;
+ }
+ .switch-toggle:has( input#on:checked ) {
+    display: block;
+    background-image: url('../../assets/images/switch_on.png');
+    width: 65px;
+    height: 34px;
+    cursor: pointer;
+ }
+ :host( :checked ) {
+    display: block;
+    background-image: url('../../assets/images/switch_na.png');
+    width: 65px;
+    height: 34px;
+    cursor: pointer;
+ }
+ input[type=checkbox] {
+   display: none;
+ }
+ 
+ input[type=checkbox] + label {
+   display: block;
+   background-image: url('../../assets/images/switch_off.png');
+   width: 65px;
+   height: 34px;
+   cursor: pointer;
+ }
+ 
+  
+ input[type=checkbox]:checked + label {
+   background-image: url('../../assets/images/switch_on.png');
+   cursor: pointer;
+ }
+ input[type=checkbox] + label {
+   display: block;
+   background-image: url('../../assets/images/switch_off.png');
+   width: 65px;
+   height: 34px;
+   cursor: pointer;
+ }
+ 
+ input[type=checkbox]:indeterminate + label {
+   display: block;
+   background-image: url('../../assets/images/switch_na.png')!important;
+   width: 65px;
+   height: 34px;
+   cursor: pointer;
+ }
+
+ input[type=checkbox]:disabled + label  {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

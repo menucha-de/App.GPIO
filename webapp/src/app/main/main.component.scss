@@ -1,0 +1,20 @@
+
+  .documentation {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto;
+    margin-top: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid lightgray;
+    text-align: center;
+}
+
+.link {
+    font-size: 100;
+    font-weight: lighter;
+    color: lightgrey;
+    text-decoration: none;
+    &:hover{
+        color: #333;
+    }
+}

@@ -1,0 +1,25 @@
+.info {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.details {
+  overflow: hidden;
+  margin-top: 0.25em;
+  margin-bottom: 0.2em;
+}
+.report {
+  display: flex;
+}
+//::ng-deep .default-action{
+  //transform: rotate(180deg);
+//}
+mica-action-button.mica-action-button  div.default-action{
+  transform: rotate(180deg);
+}
+::ng-deep .open .default-action{
+  
+  background-image: url(../../../assets/images/item_menu1.png)!important;
+  
+}

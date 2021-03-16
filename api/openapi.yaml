@@ -1,0 +1,1151 @@
+openapi: "3.0.0"
+info:
+  title: GPIO
+  description: The "GPIO" provides a REST based http interface providing the same functionality as the user
+      interface. <br> To try it out within this interactive documentation, please customize the server variables below and
+      authorize first. <br> <br> Please note that you have to switch the server to 'Basic App' before trying out the subscriber
+      and the log api.
+  contact:
+      name: Support
+      email: support@peraMIC.io
+  version: 1.0.0
+servers:
+-  url: https://{mica-host}/{container-name}/rest/gpio
+   description: GPIO App
+   variables:
+      mica-host:
+         description: The ip of the MICA
+         default: 10.10.10.10
+      container-name:
+         description: The name of the container
+         default: GPIO
+-  url: https://{mica-host}/{container-name}/rest
+   description: Basic App
+   variables:
+      mica-host:
+         description: The ip of the MICA
+         default: 10.10.10.10
+      container-name:
+         description: The name of the container
+         default: GPIO
+security:
+-  basic_auth: []
+
+
+       
+components:
+  schemas:
+  
+    Device:
+         type: object
+         properties:
+            id:
+               type: string
+            name:
+               type: string
+            label:
+               type: string
+            usable:
+               type: boolean
+            customized:
+               type: boolean
+            properties:
+               type: object
+               additionalProperties:
+                  type: string
+            fields:
+               type: object
+               additionalProperties:
+                 $ref: '#/components/schemas/Field'
+   
+    Property:
+         type: object
+         properties:
+            name:
+               type: string
+               description: Unique name of the property.
+            value:
+               type: string
+               description: The value of the property.
+               
+    Field:
+         type: object
+         properties:
+            id:
+               type: string
+            name:
+               type: string
+            label:
+               type: string
+            properties:
+               type: object
+               additionalProperties:
+                  type: string
+            value:
+               type: object
+                  
+    Subscriptor:
+         type: object
+         properties:
+            id:
+               type: string
+            enable:
+               type: boolean
+            name:
+               type: string
+            path:
+               type: string
+            subscriberId:
+               type: string
+            properties:
+               type: object
+               additionalProperties:
+                  type: string
+                  
+    Subscriber:
+      type: object
+      properties:
+        id:
+            type: string
+            description: Unique identifier (UUID) of this subscriber.
+        uri:
+            type: string
+            description: The URI of the subscriber. Value MUST be in the form of an absolute URI.
+        properties:
+            type: array
+            description: A list of connection properties for the subscriber.
+            items:
+              $ref: '#/components/schemas/Property'
+        enable:
+            type: boolean
+            description: Defines wether the subscriber is active or not.
+                  
+    CycleSpec:
+        type: object
+        properties:
+            id:
+               type: string
+            enabled:
+               type: boolean
+            name:
+               type: string
+            applicationId:
+               type: string
+            duration:
+               type: integer
+               format: int64
+            repeatPeriod:
+               type: integer
+               format: int64
+            interval:
+               type: integer
+               format: int64
+            whenDataAvailable:
+               type: boolean
+            whenDataAvailableDelay:
+               type: integer
+               format: int64
+            reportIfEmpty:
+               type: boolean
+            fieldSubscriptions:
+               type: object
+               additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: string
+    LogTarget:
+        type: object
+        properties:
+            name:
+               type: string
+               description: Log target name
+            label:
+               type: string
+               description: Log target alias
+        example:
+            name: gpio
+            label: gpio
+   
+  securitySchemes:
+    basic_auth:
+       type: http
+       scheme: basic             
+paths:
+
+  /devices:
+      get:
+         tags:
+         - Device
+         summary: Returns a list of defined device configurations
+         operationId: getDevices
+         responses:
+            default:
+               description: default response
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        additionalProperties:
+                           $ref: '#/components/schemas/Device'
+                     example:
+                        gpio:
+                           id: gpio
+                           name: gpio
+                           label: gpio1
+                           fields: 
+                              '1': 
+                                 id: '1'
+                                 name: HS1
+                                 label: HS1
+                                 properties: 
+                                    direction: INPUT
+                                    enabled: false
+                                 value: LOW
+                              '2': 
+                                 id: '2'
+                                 name: HS2
+                                 label: HS2
+                                 properties: 
+                                    direction: INPUT
+                                    enabled: false
+                                 value: LOW
+                              '3': 
+                                 id: '3'
+                                 name: HS3
+                                 label: HS3
+                                 properties: 
+                                    direction: OUTPUT
+                                    enabled: false
+                                 value: LOW
+                              '4':
+                                 id: '4'
+                                 name: HS4
+                                 label: HS4
+                                 properties: 
+                                    direction: OUTPUT
+                                    enabled: false
+                                 value: LOW
+                              '5': 
+                                 id: '5'
+                                 name: SWS1/SWD1
+                                 label: SWS1/SWD1
+                                 properties: 
+                                    direction: OUTPUT
+                                    enabled: false
+                                 value: HIGH
+                              '6': 
+                                 id: '6'
+                                 name: SWS2/SWD2
+                                 label: SWS2/SWD2
+                                 properties: 
+                                    direction: OUTPUT
+                                    enabled: false
+                                 value: LOW
+                              '7': 
+                                 id: '7'
+                                 name: LS1
+                                 label: LS1
+                                 properties:
+                                    direction: OUTPUT
+                                    enabled: false
+                                 value: LOW
+                              '8': 
+                                 id: '8'
+                                 name: LS2
+                                 label: LS2
+                                 properties: 
+                                    direction: OUTPUT
+                                    enabled: false
+                                 value: LOW
+  /devices/{id}:
+      get:
+         tags:
+         - Device
+         summary: Returns the gpio configuration with the given id as a JSON structure
+         operationId: getDevice
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  application/json:
+                     schema:
+                        $ref: '#/components/schemas/Device'
+                        
+  /devices/{id}/label:
+      get:
+         tags:
+         - Device
+         summary: Returns the device label
+         operationId: getLabel
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  text/plain:
+                   schema:
+                     type: string
+      put:
+         tags:
+         - Device
+         summary: Sets the device label
+         operationId: setLabel
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         requestBody:
+            content:
+               text/plain:
+                  schema:
+                     type: string
+         responses:
+            '204':
+               description: label updated
+            '415':
+               description: Unsupported Media Type
+            '422':
+               description: Empty content not allowed
+            '500':
+               description: Unexpected error occured
+      
+      delete:
+        tags:
+        - Device
+        summary: Deletes the device label
+        operationId:  removeDeviceLabel
+        parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            
+        responses:
+            '204':
+               description: Label deleted
+            '500':
+               description: Unexpected error occured
+               
+  /devices/{id}/properties:
+      get:
+         tags:
+         - Properties
+         summary: Returns the device properties
+         operationId: getProperties
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        
+         responses:
+            default:
+               description: default response
+               content:
+                  application/json:
+                    schema:
+                      type: object
+                      additionalProperties:
+                        type: string
+                                     
+  /devices/{id}/properties/{name}:
+      get:
+         tags:
+         - Properties
+         summary: Returns the value of device property with the given name
+         operationId: getProperty
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+              type: string
+         -  name: name
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  text/plain:
+                   schema:
+                     type: string
+                     
+      put:
+         tags:
+         - Properties
+         summary: Sets the value of device property with the given name
+         operationId: setProperty
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+              type: string
+         -  name: name
+            in: path
+            required: true
+            schema:
+               type: string         
+         requestBody:
+            content:
+               text/plain:
+                  schema:
+                     type: string
+         responses:
+            '204':
+               description: property updated
+            '415':
+               description: Unsupported Media Type
+            '422':
+               description: Empty content not allowed
+            '500':
+               description: Unexpected error occured
+  
+  /devices/{id}/fields:
+      get:
+         tags:
+         - Fields
+         summary: Returns a map with device fields
+         operationId: getFields
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+              type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  application/json:
+                    schema:
+                      type: object
+                      additionalProperties:
+                        $ref: '#/components/schemas/Field'
+               
+  /devices/{id}/fields/{fieldId}:
+      get:
+         tags:
+         - Fields
+         summary: Returns the device field with the given fieldId
+         operationId: getField
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+              type: string
+         -  name: fieldId
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  application/json:
+                   schema:
+                      $ref: '#/components/schemas/Field'
+                     
+      put:
+         tags:
+         - Fields
+         summary: Sets the device field with the given fieldId
+         operationId: setField
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+              type: string
+         -  name: fieldId
+            in: path
+            required: true
+            schema:
+               type: string         
+         requestBody:
+            content:
+              application/json:
+                  schema:
+                      $ref: '#/components/schemas/Field'
+         responses:
+            '204':
+               description: field updated
+            '415':
+               description: Unsupported Media Type
+            '422':
+               description: Empty content not allowed
+            '500':
+               description: Unexpected error occured
+               
+  /devices/{id}/fields/{fieldId}/label:
+      get:
+         tags: 
+         - Fields
+         summary: Returns the field label
+         operationId: getFieldLabel
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         -  name: fieldId
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  text/plain:
+                   schema:
+                     type: string
+      put:
+         tags:
+         - Fields
+         summary: Set the field label
+         operationId: setFieldLabel
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         -  name: fieldId
+            in: path
+            required: true
+            schema:
+               type: string
+         requestBody:
+            content:
+               text/plain:
+                  schema:
+                     type: string
+         responses:
+            '204':
+               description: label updated
+            '415':
+               description: Unsupported Media Type
+            '422':
+               description: Empty content not allowed
+            '500':
+               description: Unexpected error occured
+      delete:
+        tags:
+        - Fields
+        summary: Deletes the field label
+        operationId:  removeFieldLabel
+        parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         -  name: fieldId
+            in: path
+            required: true
+            schema:
+               type: string
+        responses:
+            '204':
+               description: Label deleted
+            '500':
+               description: Unexpected error occured
+      
+               
+  /devices/{id}/fields/{fieldId}/value:
+      get:
+         tags: 
+         - Fields
+         summary: Returns the field value
+         operationId: getFieldValue
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         -  name: fieldId
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  text/plain:
+                   schema:
+                     type: string
+      put:
+         tags:
+         - Fields
+         summary: Set the field value
+         operationId: setFieldValue
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         -  name: fieldId
+            in: path
+            required: true
+            schema:
+               type: string
+         requestBody:
+            content:
+               text/plain:
+                  schema:
+                     type: string
+         responses:
+            '204':
+               description: value updated
+            '415':
+               description: Unsupported Media Type
+            '422':
+               description: Empty content not allowed
+            '500':
+               description: Unexpected error occured
+               
+  /devices/{id}/fields/{fieldId}/properties:
+      get:
+         tags:
+         - Fields
+         summary: Returns the field properties
+         operationId: getFieldProperties
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+              type: string
+         -  name: fieldId
+            in: path
+            required: true
+            schema:
+              type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  application/json:
+                    schema:
+                      type: object
+                      additionalProperties:
+                        type: string
+                                     
+  /devices/{id}/fields/{fieldId}/properties/{name}:
+      get:
+         tags:
+         - Fields
+         summary: Returns the field property value
+         operationId: getFieldProperty
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+              type: string
+         -  name: fieldId
+            in: path
+            required: true
+            schema:
+               type: string
+         -  name: name
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  text/plain:
+                   schema:
+                     type: string
+                     
+      put:
+         tags:
+         - Fields
+         summary: Sets the field property
+         operationId: setFieldProperty
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+              type: string
+         -  name: fieldId
+            in: path
+            required: true
+            schema:
+               type: string
+         -  name: name
+            in: path
+            required: true
+            schema:
+               type: string         
+         requestBody:
+            content:
+               text/plain:
+                  schema:
+                     type: string
+         responses:
+            '204':
+               description: property updated
+            '415':
+               description: Unsupported Media Type
+            '422':
+               description: Empty content not allowed
+            '500':
+               description: Unexpected error occured
+        
+               
+  /reports:
+      get:
+         tags:
+         - Reports
+         summary: Returns a list of defined report specifications
+         operationId: getReportSpecs
+         responses:
+            default:
+               description: default response
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        additionalProperties:
+                           $ref: '#/components/schemas/CycleSpec'
+      post:
+         tags:
+         - Reports
+         summary: Adds a new report specification and returns it's id
+         operationId: addReportSpec
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     $ref: '#/components/schemas/CycleSpec'
+         responses:
+            default:
+               description: Generated report id
+               content:
+                  text/plain:
+                     schema:
+                        type: string
+                     example: 46dd7ce5-10be-4622-ac31-0d566bdecafb
+                     
+  /reports/{id}:
+      get:
+         tags:
+         - Reports
+         summary: Returns the report specification with the given id as a JSON structure
+         operationId: getReportSpec
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: report specification
+               content:
+                  application/json:
+                     schema:
+                        $ref: '#/components/schemas/CycleSpec'
+      put:
+         tags:
+         - Reports
+         summary: Updates the report specification with the given id
+         operationId: updateReportSpec
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     $ref: '#/components/schemas/CycleSpec'
+         responses:
+            default:
+               description: default response
+               content:
+                  '*/*': {}
+      delete:
+         tags:
+         - Reports
+         summary: Deletes the report specification with the given id
+         operationId: removeReportSpec
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  '*/*': {}
+                  
+  /reports/{id}/subscriptions:
+      get:
+         tags:
+         - Reports
+         summary: Returns a list of defined subscriptions for the given name
+         operationId: getSubscriptors
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        additionalProperties:
+                           $ref: '#/components/schemas/Subscriptor'
+      post:
+         tags:
+         - Reports
+         summary: Adds a subscription for the given name
+         operationId: defineSubscriptor
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     $ref: '#/components/schemas/Subscriptor'
+         responses:
+            default:
+               description: default response
+               content:
+                  text/plain:
+                     schema:
+                        type: string
+                        
+  /reports/{id}/subscriptions/{subscriptorId}:
+      get:
+         tags:
+         - Reports
+         summary: Returns the subscription with the given id of the given report as a JSON structure
+         operationId: getSubscriptor
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         -  name: subscriptorId
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  application/json:
+                     schema:
+                        $ref: '#/components/schemas/Subscriptor'
+      put:
+         tags:
+         - Reports
+         summary: Updates the subscription with the given id of the given report
+         operationId: updateSubscriptor
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         -  name: subscriptorId
+            in: path
+            required: true
+            schema:
+               type: string
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     $ref: '#/components/schemas/Subscriptor'
+         responses:
+            default:
+               description: default response
+               content:
+                  '*/*': {}
+      delete:
+         tags:
+         - Reports
+         summary: Deletes the subscription with the given id of the given report
+         operationId: undefineSubscriptor
+         parameters:
+         -  name: id
+            in: path
+            required: true
+            schema:
+               type: string
+         -  name: subscriptorId
+            in: path
+            required: true
+            schema:
+               type: string
+         responses:
+            default:
+               description: default response
+               content:
+                  '*/*': {}
+ 
+  /subscribers:
+      get:
+         tags:
+         - Subscribers
+         summary: Returns a list of all defined subscribers
+         responses:
+            '200':
+               description: Subscribers returned.
+               content:
+                  application/json:
+                     schema:
+                        type: array
+                        items:
+                           $ref: '#/components/schemas/Subscriber'
+            '500':
+               description: Unexpected error occured
+      post:
+         tags:
+         - Subscribers
+         summary: Creates a subscriber and returns its generated ID
+         operationId: createSubscriber
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     $ref: '#/components/schemas/Subscriber'
+         responses:
+            '200':
+               description: Subscriber created, UUID generated and returned
+               content:
+                  text/plain:
+                     schema:
+                        type: string
+            '415':
+               description: Unsupported Media Type
+            '422':
+               description: Empty content not allowed
+            '500':
+               description: Unexpected error occured
+               
+  /subscribers/{subscriberId}:
+      summary: All operations in this path will be applied to a particular subscriber defined by its ID
+      parameters:
+      -  name: subscriberId
+         schema:
+            type: string
+         in: path
+         required: true
+         description: ID of the subscriber to operate on
+         example: 8eca814e-5c64-4408-b538-b7468b15acd7
+      get:
+         tags:
+         - Subscribers
+         summary: Returns the requested subscriber
+         operationId: getSubscriber
+         responses:
+            '200':
+               description: Subscriber returned
+               content:
+                  application/json:
+                     schema:
+                        $ref: '#/components/schemas/Subscriber'
+            '404':
+               description: Subscriber not found
+            '500':
+               description: Unexpected error occured
+      put:
+         tags:
+         - Subscribers
+         summary: Updates the requested subscriber
+         operationId: updateSubscriber
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     $ref: '#/components/schemas/Subscriber'
+         responses:
+            '204':
+               description: Subscriber updated
+            '404':
+               description: Subscriber not found
+            '415':
+               description: Unsupported Media Type
+            '422':
+               description: Empty content not allowed
+            '500':
+               description: Unexpected error occured
+      delete:
+         tags:
+         - Subscribers
+         summary: Deletes the requested subscriber
+         operationId: deleteSubscriber
+         responses:
+            '204':
+               description: Subscriber deleted
+            '500':
+               description: Unexpected error occured
+  /log/targets:
+      get:
+         tags:
+         - Log
+         summary: Returns a list of log targets
+         responses:
+            '200':
+               description: List of log targets containing the targets' names and targets' aliases
+               content:
+                  application/json:
+                     schema:
+                        type: array
+                        items:
+                           $ref: '#/components/schemas/LogTarget'
+            '500':
+               description: Unexpected error occured
+
+  /log/levels:
+      get:
+         tags:
+         - Log
+         summary: Returns a list of available log levels
+         responses:
+            '200':
+               description: List of log levels
+               content:
+                  application/json:
+                     schema:
+                        type: array
+                        items:
+                           type: string
+            '500':
+               description: Unexpected error occured
+  /log/{target}/{level}:
+      parameters:
+      -  name: target
+         schema:
+            type: string
+         in: path
+         required: true
+         description: Name of the log target
+         example: gpio
+      -  name: level
+         schema:
+            type: string
+         in: path
+         required: true
+         description: Log level
+         example: ALL
+      get:
+         tags:
+         - Log
+         summary: Returns the number of log entries of the given log target and the given level
+         description: The log level is transformed to a list of effective log levels, i.e. the list of effective log levels
+            contains the given level itself and all log level that are less detailed than the one specified. E.g. if 'info'
+            is the given log level, the list of effective log levels will contain 'info', 'warn' and 'error'. Thus this method
+            does not return the mere number of entries for the given log target and level but rather the number of entries
+            of the given log level and all levels less detailed (or more severe) than the given one.
+         responses:
+            '200':
+               description: Number of log entries returned
+               content:
+                  application/json:
+                     schema:
+                        type: integer
+            '500':
+               description: Unexpected error occured
+  /log/{target}/{level}/{limit}/{offset}:
+      parameters:
+      -  name: target
+         schema:
+            type: string
+         in: path
+         required: true
+         description: Name of the log target
+         example: havis.custom.harting.euromap63
+      -  name: level
+         schema:
+            type: string
+         in: path
+         required: true
+         description: Log level
+         example: ALL
+      -  name: limit
+         schema:
+            type: string
+         in: path
+         required: true
+         description: Number of entries returned or -1 for all log entries
+         example: -1
+      -  name: offset
+         schema:
+            type: string
+         in: path
+         required: true
+         description: Specifies how many entries to skip. Specify 0 to start with the first entry
+         example: 0
+      get:
+         tags:
+         - Log
+         summary: Returns a list of LogEntry objects for the given target and level
+         description: The log level is transformed to a list of effective log levels, i.e. the list of effective log levels
+            contains the given level itself and all log level that are less detailed than the one specified. E.g. if 'info'
+            is the given log level, the list of effective log levels will contain 'info', 'warn' and 'error'. Thus this method
+            does not only return the entries for the given log target and level but rather the entries of the given log level
+            and all levels less detailed (or more severe) than the given one. <br> By specifying a limit, the number of entries
+            returned can be limited to a certain amount. If all log entries are requested limit must be < 0. By specifying
+            the offset this amount of log entries will be skipped. Thus the proper use of offset and limit allows page based
+            reading of log entries. <br> The log entries are returned in ascending order.
+         responses:
+            '200':
+               description: List of LogEntry objects
+               content:
+                  application/json:
+                     schema:
+                        type: array
+                        items:
+                           type: object
+            '500':
+               description: Unexpected error occured
+               
