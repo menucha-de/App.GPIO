@@ -10,12 +10,12 @@ import (
 	"sync"
 	"time"
 
-	capture "github.com/peramic/capture"
+	"github.com/menucha-de/capture"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
-	transport "github.com/peramic/transport"
-	"github.com/peramic/logging"
-	"github.com/peramic/utils"
+	"github.com/menucha-de/transport"
+	"github.com/menucha-de/logging"
+	"github.com/menucha-de/utils"
 )
 
 type wbSocketClients struct {

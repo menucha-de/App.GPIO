@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, of, throwError } from 'rxjs';
 
 import { tap, map } from 'rxjs/operators';
-import { Subscriptor, UtilService } from '@peramic/shared';
+import { Subscriptor, UtilService } from '@menucha-de/shared';
 import { CycleSpec } from '../models/cyclespec.model';
 import { Device } from '../models/device.model';
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import { Router } from '@angular/router';
-import { BroadcasterService, Subscriptor, UtilService, Subscriber, TransportService } from '@peramic/shared';
-import { ServiceState } from '@peramic/controls';
+import { BroadcasterService, Subscriptor, UtilService, Subscriber, TransportService } from '@menucha-de/shared';
+import { ServiceState } from '@menucha-de/controls';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ReportService } from '../report.service';

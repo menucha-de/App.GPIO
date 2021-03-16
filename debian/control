@@ -1,5 +1,5 @@
 Source: gpio
-Maintainer: peraMIC <opensource@peraMIC.io>
+Maintainer: Menucha Team <info@menucha.de>
 Build-Depends: debhelper, nodejs:native, golang:native, git, crossbuild-essential-armhf:all, libmica-gpio, libhidapi-dev
  
 Package: gpio

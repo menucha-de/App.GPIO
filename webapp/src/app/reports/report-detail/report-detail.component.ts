@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { switchMap, tap, catchError } from 'rxjs/operators';
-import { CloseAction, UtilService, BroadcasterService } from '@peramic/shared';
+import { CloseAction, UtilService, BroadcasterService } from '@menucha-de/shared';
 
 
 import { CycleSpec } from '../../models/cyclespec.model';

@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MicaAppBaseModule, TransportModule, TransportConfig, MicaAppComponentsModule } from '@peramic/shared';
-import { MicaControlsModule } from '@peramic/controls';
+import { MicaAppBaseModule, TransportModule, TransportConfig, MicaAppComponentsModule } from '@menucha-de/shared';
+import { MicaControlsModule } from '@menucha-de/controls';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 

@@ -17,11 +17,11 @@ import (
 	"syscall"
 	"time"
 
-	gpio "github.com/peramic/App.GPIO/gpio"
-	capture "github.com/peramic/capture"
-	transport "github.com/peramic/transport"
-	"github.com/peramic/logging"
-	"github.com/peramic/utils"
+	gpio "github.com/menucha-de/App.GPIO/gpio"
+	capture "github.com/menucha-de/capture"
+	transport "github.com/menucha-de/transport"
+	"github.com/menucha-de/logging"
+	"github.com/menucha-de/utils"
 )
 
 var log *logging.Logger = logging.GetLogger("gpio")

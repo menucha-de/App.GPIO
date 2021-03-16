@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { transportRoutes, SubscriptionDialogComponent } from '@peramic/shared';
+import { transportRoutes, SubscriptionDialogComponent } from '@menucha-de/shared';
 
 
 

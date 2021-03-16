@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { BroadcasterService, UtilService } from '@peramic/shared';
+import { BroadcasterService, UtilService } from '@menucha-de/shared';
 import { CycleSpec } from '../../models/cyclespec.model';
 import { Router } from '@angular/router';
 import { ReportService } from '../report.service';
-import { ServiceState } from '@peramic/controls';
+import { ServiceState } from '@menucha-de/controls';
 
 @Component({
   selector: 'app-report',

@@ -4,8 +4,8 @@ import { ReportComponent } from './report/report.component';
 import { ReportsComponent } from './reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
 import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
-import { MicaAppComponentsModule } from '@peramic/shared';
-import { MicaControlsModule } from '@peramic/controls';
+import { MicaAppComponentsModule } from '@menucha-de/shared';
+import { MicaControlsModule } from '@menucha-de/controls';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectMachinesModule } from '../select-machines/select-machines.module';
 

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strconv"
 
-	capture "github.com/peramic/capture"
+	"github.com/menucha-de/capture"
 )
 
 var count int = Count()

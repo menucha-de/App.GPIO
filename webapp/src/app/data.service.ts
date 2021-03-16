@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { UtilService } from '@peramic/shared';
+import { UtilService } from '@menucha-de/shared';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Device } from './models/device.model';

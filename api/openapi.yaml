@@ -7,7 +7,7 @@ info:
       and the log api.
   contact:
       name: Support
-      email: support@peraMIC.io
+      email: info@menucha.de
   version: 1.0.0
 servers:
 -  url: https://{mica-host}/{container-name}/rest/gpio
@@ -1103,7 +1103,7 @@ paths:
          in: path
          required: true
          description: Name of the log target
-         example: havis.custom.harting.euromap63
+         example: vpn
       -  name: level
          schema:
             type: string

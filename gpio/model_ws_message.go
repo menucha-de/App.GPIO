@@ -1,6 +1,6 @@
 package swagger
 
-import capture "github.com/peramic/capture"
+import capture "github.com/menucha-de/capture"
 
 // WsMessage The websocket message
 type WsMessage struct {

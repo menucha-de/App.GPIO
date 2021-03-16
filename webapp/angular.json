@@ -24,19 +24,19 @@
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "./node_modules/@peramic/shared/assets/images",
+                "input": "./node_modules/@menucha-de/shared/assets/images",
                 "output": "./assets/images"
               },
               {
                 "glob": "**/*",
-                "input": "./node_modules/@peramic/controls/assets/images",
+                "input": "./node_modules/@menucha-de/controls/assets/images",
                 "output": "./assets/images"
               }
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/@peramic/shared/shared.scss",
-              "node_modules/@peramic/controls/controls.scss"
+              "node_modules/@menucha-de/shared/shared.scss",
+              "node_modules/@menucha-de/controls/controls.scss"
             ],
             "scripts": []
           },

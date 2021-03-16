@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { PinUI } from '../models/pinui.model';
 import { DataService } from '../data.service';
-import { UtilService } from '@peramic/shared';
+import { UtilService } from '@menucha-de/shared';
 import { Field } from '../models/field.model';
 
 @Component({

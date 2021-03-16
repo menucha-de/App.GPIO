@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy } from '@ang
 import { CycleSpec } from '../models/cyclespec.model';
 import { Observable, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UtilService, BroadcasterService } from '@peramic/shared';
+import { UtilService, BroadcasterService } from '@menucha-de/shared';
 import { ReportService } from './report.service';
 import { takeUntil } from 'rxjs/operators';
 

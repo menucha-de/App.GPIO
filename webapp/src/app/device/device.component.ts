@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { Device } from '../models/device.model';
 import { retryWhen, tap, delay } from 'rxjs/operators';
-import { UtilService } from '@peramic/shared';
+import { UtilService } from '@menucha-de/shared';
 
 @Component({
   selector: 'app-device',
