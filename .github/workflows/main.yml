@@ -5,7 +5,7 @@ on:
     inputs:
       arch:
         description: 'Architecture'
-        default: 'amd64 armhf'
+        default: 'armhf'
       dist:
         description: 'Distribution'
         default: 'buster'
@@ -28,7 +28,7 @@ on:
         required: true
       platforms:
         description: 'Platforms'
-        default: 'linux/amd64,linux/arm/v7'
+        default: 'linux/arm/v7'
 
 jobs:
   build:
